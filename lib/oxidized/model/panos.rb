@@ -22,12 +22,16 @@ class PanOS < Oxidized::Model
     comment cfg
   end
 
-  cmd 'show config running' do |cfg|
+  cmd 'show' do |cfg|
     cfg
   end
 
   cfg :ssh do
     post_login 'set cli pager off'
+    post_login 'set cli config-output-format set'
+    # alternative for WebUI import: set cli config-output-format xml
+    post_login 'configure'
+    pre_logout 'exit'
     pre_logout 'exit'
   end
 end
